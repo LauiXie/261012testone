@@ -1,6 +1,6 @@
 # 身份证管理系统 Demo（261012testone）
 
-一个简单的身份证管理 demo：**后端 SpringBoot 3（JDK 17）+ MySQL 8**，前端 Vue3 将在下一阶段加入同一仓库的 `/frontend` 目录。
+一个简单的身份证管理 demo：**后端 SpringBoot 3（JDK 17）+ MySQL 8**，前端 **Vue3 + Vite + Element Plus**，都在同一仓库，后端在 `/backend`，前端在 `/frontend`。
 
 ## 目录结构
 
@@ -9,7 +9,7 @@
 ├── backend/          # SpringBoot 3 + MySQL 8 后端（当前阶段）
 │   ├── pom.xml
 │   └── src/main/java/com/example/idcard/
-└── frontend/         # 预留目录，Vue3 前端（下一阶段填充）
+└── frontend/         # Vue3 + Vite + Element Plus 前端（列表 / 增删改 / 统计）
 ```
 
 ## 环境要求
@@ -19,6 +19,8 @@
 | JDK | 17+ |
 | Maven | 3.8+ |
 | MySQL | 8.x |
+| Node.js | 18+（前端） |
+| npm | 9+（前端） |
 
 ## 初始化数据库
 
@@ -200,6 +202,24 @@ mvn -q -DskipTests package   # 打包
 mvn test                     # 单元测试
 ```
 
+## 前端（frontend）
+
+Vue3 + Vite + Element Plus + axios + vue-router，开发环境用 Vite proxy 把 `/api` 代理到 `http://localhost:8080`。
+
+```bash
+cd frontend
+npm install
+npm run dev      # 开发服务器 http://localhost:5173，/api 已代理到后端
+npm run build    # 构建产物输出到 frontend/dist
+npm run preview  # 预览构建产物
+```
+
+页面：`/idcards` 身份证管理（分页、按姓名/身份证号搜索、新增/编辑/删除）、`/stats` 数据统计（总数、男女数量与占比、年龄段分布）。
+
+详细说明见 `frontend/README.md`。
+
 ## 跨域
 
 后端已允许 `/api/**` 跨域（`allowedOriginPatterns("*")`），前端开发服务器（Vite 默认 `http://localhost:5173`）可直接调用。
+
+前端开发环境额外配置了 Vite proxy（`frontend/vite.config.js`），把 `/api` 转发到 `http://localhost:8080`，不依赖跨域配置。
